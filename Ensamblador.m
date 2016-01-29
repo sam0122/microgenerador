@@ -2,6 +2,7 @@ function [Coord] = Ensamblador(Ag)
     L = Ag{1,1}(1,1);
     I = Ag{1,2}(1,1);
     centro = [0,0];
+    r = tamanoMedio;
     %Lista de coordenadas de los puntos que conforman el polígono
     Coord = {zeros(1,2),zeros(1,2),zeros(1,2),zeros(1,2),zeros(1,2)};
     Coord{1,1}(1,1) =centro(1,1)-L*0.5;
