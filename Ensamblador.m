@@ -6,7 +6,8 @@ function [Coord] = Ensamblador(Ag)
     %Dimensiones del área rectangular
     b = sqrt(Arect*0.6/0.4);
     a = b*0.4/0.6;
-        
+    
+    O =     
     L = Ag{1,1}(1,1);
     I = Ag{1,2}(1,1);
     centro = [0,0];
