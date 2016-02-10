@@ -15,7 +15,7 @@ function [Ag] = Generador(nAgreg,tamMed, tamDesv,incInf,incSup)
     %Area de cada agregado va en la tercera columna
     %Coordenadas del centroide del polígono, con respecto al centro del
     %cuadrado, van en la cuarta columna.
-    Ag = { zeros(nAgreg,5)};
+    Ag = { zeros(nAgreg,6)};
     Ag{:, 1} = normrnd(tamMed,tamDesv,[nAgreg,1]);
     Ag{:, 2} = unidrnd(incSup-incInf,nAgreg,1)+incInf;
     Ag{:, 3} = Ag{:,1}.^2+0.5.*(Ag{:,1}.*Ag{:,1}.*0.5.*tand(45));
@@ -26,6 +26,8 @@ function [Ag] = Generador(nAgreg,tamMed, tamDesv,incInf,incSup)
     %centroide del polígono y el vértice más alejado. Almacenado en la
     %quinta columna
     Ag{:,5} = Ag{:,1}.*0.5-Ag{:,4}(:,2)+Ag{:,1}.*0.5.*tand(45);
+    %Variable que expresa el numero de vertices que tiene cada poligono
+    Ag{1,6}(1:nAgreg,1) = 5;
     %[sorted1,index1]= sort(cell2mat(Ag{1}));
     %Ag{1} = num2cell(sorted1);
     %Ag{2} = Ag{2}(index1);
