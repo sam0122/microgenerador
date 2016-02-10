@@ -26,11 +26,11 @@ function [Ag] = Generador(nAgreg,tamMed, tamDesv,incInf,incSup)
     %centroide del polígono y el vértice más alejado. Almacenado en la
     %quinta columna
     Ag{:,5} = Ag{:,1}.*0.5-Ag{:,4}(:,2)+Ag{:,1}.*0.5.*tand(45);
-    [sorted1,index1]= sort(cell2mat(Ag{1}));
-    Ag{1} = num2cell(sorted1);
-    Ag{2} = Ag{2}(index1);
-    Ag{3}= Ag{3}(index1);
-    Ag{4} = Ag{4}(index1);
-    Ag{5} = Ag{5}(index1);
+    %[sorted1,index1]= sort(cell2mat(Ag{1}));
+    %Ag{1} = num2cell(sorted1);
+    %Ag{2} = Ag{2}(index1);
+    %Ag{3}= Ag{3}(index1);
+    %Ag{4} = Ag{4}(index1);
+    %Ag{5} = Ag{5}(index1);
     
 end
