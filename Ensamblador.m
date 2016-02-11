@@ -2,7 +2,7 @@ function [y] = Ensamblador(Ag)
     %Area total de agregados
     Atotal = sum(Ag{:,3});
     %Area en la que se ubican los polígonos, Atotal*1.5
-    Arect = Atotal*1.5;
+    Arect = Atotal*2;
     %Dimensiones del área rectangular
     b = sqrt(Arect*0.6/0.4);
     a = b*0.4/0.6;
@@ -40,31 +40,51 @@ function [y] = Ensamblador(Ag)
     end
      
     %Dibujo del rectángulo
-    c1 = centro(1,1)-b/2;
-    c2 = centro(1,1)+b/2;
-    c3 = centro(1,2)-a/2;
-    c4 = centro(1,2)+a/2;
+    c1 = centro(1,1) - b/2;
+    c2 = centro(1,1) + b/2;
+    c3 = centro(1,2) - a/2;
+    c4 = centro(1,2) + a/2;
     xRect = [c1, c2, c2, c1, c1];
     yRect = [c3, c3, c4, c4, c3];
     rX = c1:0.5:c2;
     rY = c3:0.5:c4;
     
     for i = 1:Nrow{1,1}
-        centro(1,1) = datasample(rX,1,'Replace',true);
-        centro(1,2) = datasample(rY,1,'Replace',true);
-        coord(i,1) = centro(1,1)+geomPol(i,5);
-        coord(i,2) = centro(1,2)+geomPol(i,6);
-        if (coord(i,1)- geomPol(i,3)<c1); or (coord(i,1)+ geomPol(i,3)>c2); or (coord(i,2)-geomPol(i,3)<c3) ; or (coord(i,2)+ geomPol(i,3)>c4)
+        
+        loc = false; 
+       
+        while ~loc 
+            %Selecciona dos puntos aleatorios para el centro del rectangulo,
+            %reajusta las coordenadas del centroide
+            centro(1,1) = datasample(rX, 1, 'Replace', true);
+            centro(1,2) = datasample(rY, 1, 'Replace', true);
+            coord(i,1) = centro(1,1) + geomPol(i,5);
+            coord(i,2) = centro(1,2) + geomPol(i,6);
+            inter = false;
+                        
+            if (coord(i,1) - geomPol(i,3) < c1) || (coord(i,1)+ geomPol(i,3) > c2) || (coord(i,2) - geomPol(i,3) < c3) || (coord(i,2) + geomPol(i,3 )> c4)
             
-        else
-            for j = i:-1:1
-            
-      
-            
+            else
+                j = i;
+                    while ~inter && j > 1
+                        [intX, intY] = circcirc(coord(i,1), coord(i,2), geomPol(i,3), coord(j-1,1), coord(j-1,2), geomPol(j-1,3));
+                        if isnan(intX) && isnan(intY)
+                            if (j-1 == 1)
+                                inter = true;
+                                loc = true;
+                            else
+                                j = j - 1;
+                            end
+                        else
+                            inter = true;
+                        end
+                                    
+                    end
+                
+                
             end
         end
         
-        %disp(centro);
         
          %{
          coord(i,1) =centro(1,1)-geomPol(i,1)*0.5;
@@ -94,7 +114,7 @@ function [y] = Ensamblador(Ag)
          y(i,6) = sind(geomPol(i,2))*coord(i,1)+cosd(geomPol(i,2))*coord(i,2);
          %}
     end
-    
+    disp(coord);
     L = Ag{1,1}(1,1);
     I = Ag{1,2}(1,1);
    
